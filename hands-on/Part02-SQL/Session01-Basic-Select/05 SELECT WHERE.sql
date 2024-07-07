@@ -96,8 +96,19 @@ SELECT * FROM Orders WHERE Freight >= 100 AND Freight <= 500 ORDER BY Freight DE
 -- 16. Xem thông tin bên đơn hàng sắp xếp giảm dần theo trọng lượng, trọng lượng nằm trong khoảng 100 đến 500 và
 -- ship bởi  công ty giao vận số 1
 SELECT * FROM Orders WHERE Freight >= 100 AND Freight <= 500 AND ShipVia = 1 AND NOT ShipCity = 'London' ORDER BY Freight DESC 
+SELECT * FROM Orders WHERE Freight >= 100 AND Freight <= 500 AND ShipVia = 1 AND ShipCity <> 'London' ORDER BY Freight DESC 
 
+-- 17. Liệt kê k/h đến từ Mỹ hoặc Mexico
+SELECT * FROM Customers WHERE Country = 'USA' OR Country = 'Mexico'
 
+-- 18. Liệt kê k/h không đến từ Mỹ hoặc Mexico
+SELECT * FROM Customers WHERE Country <> 'USA' AND Country <> 'Mexico'
+SELECT * FROM Customers WHERE NOT(Country = 'USA' OR  Country = 'Mexico')
+SELECT * FROM Customers WHERE Country <> 'USA' AND Country != 'Mexico'
+
+-- 19. Liệt kê các nhân viên sinh ra trong đoạn 1960 1970
+SELECT * FROM Employees ORDER BY BirthDate DESC
+SELECT * FROM Employees WHERE YEAR(BIRTHDate) >= 1960 AND YEAR(BIRTHDATE) <= 1970 ORDER BY BirthDate DESC
 
 
 

@@ -1,0 +1,15 @@
+﻿USE Northwind
+------------------------------------------------
+-- LÍ THUYẾT
+-- CÚ PHÁP MỞ RỘNG LỆNH SELECT
+-- Trong thực tế có những lúc ta muốn tìm dữ liệu/filter theo kiểu gần đúng
+-- gần đúng trên kiểu chuỗi, ví dụ, liệt kê ai đó có tên là AN, khác câu 
+-- liệt kê ai đó tên bắt đầu bằng chữ A
+-- Tìm đúng, TOÁN TỬ = 'AN'
+-- Tìm gần đúng, tìm có SỰ XUẤT HIỆN, KO DÙNG =, DÙNG TOÁN TỬ LIKE
+--						LIKE 'A'...
+-- ĐỂ SỬ DỤNG TOÁN TỬ LIKE, TA CẦN THÊM 2 SỰ TRỢ GIÚP, DẤU % VÀ DẤU _
+-- % đại diện cho 1 chuỗi bất kì nào đó, 
+-- _ đại diện dùng cho  1 kí tự đặc biệt nào đó
+-- Ví dụ: NAME LIKE 'A%', bất kì ai có tên xh bằng chữ A, phần còn lại là gì ko care
+--		  NAME LIKE 'A_', bất kì ai có tên là 2 kí tự, trong đó kí tự đầu phải là A
