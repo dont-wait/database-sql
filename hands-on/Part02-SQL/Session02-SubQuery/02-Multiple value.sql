@@ -12,6 +12,8 @@
 -- MỘT CỘT VÀ NHIỀU DÒNG THÌ TA CÓ THỂ XEM NÓ TƯƠNG ĐƯƠNG MỘT TẬP HỢP
 -- SELECT CITY FROM EMPLOYEES, BẠN ĐC 1 LOẠT CÁC T/P
 -- TA CÓ THỂ NHÉT/LỒNG CÂU 1 CỘT/NHIỀU DÒNG VÀO TRONG MỆNH ĐỀ IN CỦA CÂU SQL BÊN NGOÀI
+-- Bác Long muốn mua rau, thịt cá nhưng đang dịch Covid Thế nên bác không thể đi mua trực tiếp mà phải thông qua anh Bộ đội
+-- gián típ mua giúp vì chỉ anh ms bt chỗ mua, (kết nối 2 Table)
 -- * CÚ PHÁP
 -- WHERE CỘT IN (MỘT CÂU SELECT TRẢ VỀ 1 CỘT NHIỀU DÒNG - NHIỀU VALUE CÙNG KIỂU - TẬP HỢP)
 ----------------------------------------------------------------------
@@ -38,11 +40,18 @@ SELECT * FROM Orders WHERE EmployeeID IN (
 
 --BTVN
 --1. Nhà cung cấp đến từ Mỹ cung cấp những mặt hàng nào
---2. Nhà cung cấp đến từ Mỹ cung cấp những nhóm hàng 
+SELECT * FROM Suppliers
+SELECT * FROM Products WHERE SupplierID IN (
+											SELECT SupplierID FROM Suppliers WHERE Country = 'USA')
 
+--2. Nhà cung cấp đến từ Mỹ cung cấp những nhóm hàng 
+SELECT * FROM Categories WHERE CategoryID IN (SELECT CategoryID FROM Suppliers WHERE Country = 'USA')
 --3. các đơn hàng vận chuyển tới thành phố Sao Paulo đc vận chuyển bởi những hãng nào
 --   Các cty nào đã vận chuyển hàng tới Sao Paulo
+SELECT * FROM Shippers
+SELECT * FROM Orders
+SELECT * FROM Shippers WHERE ShipperID IN (SELECT ShipVia FROM Orders WHERE ShipCity = 'Sao Paulo')
 --4. Khách hàng đến từ London, Berlin, Madrid có những đơn hàng nào
 --	 Liệt kê các đơn hàng của khách hàng đến từ Berlin, London, Madrid
-
 SELECT * FROM Customers
+SELECT * FROM Orders WHERE ShipCity IN (SELECT DISTINCT City FROM Customers WHERE City IN ('Berlin', 'London', 'Madrid'))

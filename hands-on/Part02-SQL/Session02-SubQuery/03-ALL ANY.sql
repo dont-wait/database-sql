@@ -33,3 +33,16 @@ SELECT * FROM Num WHERE Numbr > 5
 
 --2. In ra số lớn nhất trong các số đã nhập
 --SỐ LỚN NHẤT TRONG 1 ĐÁM ĐC ĐỊNH NGHĨA LÀ: MÀY LỚN HƠN CẢ ĐÁM ĐÓ VÀ BẰNG CHÍNH NÓ
+--lớn hơn tất cả, ngoại trừ chính mình -> mình là MAX CỦA ĐÁM
+SELECT * FROM Num WHERE Numbr = 101 --lầy
+SELECT * FROM Num WHERE Numbr >= ALL (SELECT * FROM Num)
+
+--3. SỐ nhỏ nhất là số nào?
+SELECT * FROM Num WHERE Numbr <= ALL (SELECT * FROM Num)
+
+SELECT * FROM Num WHERE Numbr > ALL (SELECT * FROM Num) --bạn đang top 1, không thể 
+														--cao hơn nx, chả lẻ bạn lại lớn hơn cả bạn =)
+--4. Nhân viên nào lớn tuổi nhất
+SELECT * FROM Employees WHERE YEAR(GETDATE()) - YEAR(BirthDate) >= ALL (SELECT YEAR(GETDATE()) - YEAR(BirthDate) AS Age FROM Employees )
+--5. Đơn hàng nào có trọng lượng nặng nhất
+SELECT * FROM Orders WHERE Freight >= ALL (SELECT Freight FROM Orders)
