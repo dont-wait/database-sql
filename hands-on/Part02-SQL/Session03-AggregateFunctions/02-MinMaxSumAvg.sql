@@ -61,3 +61,67 @@ SELECT COUNT(*) FROM (
 												SELECT AVG(Freight) FROM Orders
 											  )
 					 ) AS [AVG]
+
+-- NHẮC LẠI
+-- CỘT XH TRONG SELECT HÀM Ý DẾM THEO CỘT NÀY, CỘT NÀY PHẢI XUẤT HIỆN TRONG GROUP BY
+
+-- TỈNH <ĐẾM CÁI GÌ ĐÓ CỦA TỈNH> -> RÕ RÀNG PHẢI CHIA THEO TỈNH MÀ ĐẾM
+								 -- GROUP BY TỈNH
+-- CHUYÊN NGÀNH, <ĐẾM CỦA CHUYÊN NGÀNH> --> CHIA THEO CN MÀ ĐẾM
+										-- GROUP BY CHUYÊN NGÀNH
+-- CÓ QUYỀN GROUP BY TRÊN NHIỀU CỘT
+
+-- MÃ CHUYÊN NGÀNH, TÊN CHUYÊN NGÀNH <SL SV> -> GROUP BY TRÊN 2 CỘT MÃ CN, TÊN CHUYÊN NGÀNH
+
+-- ÔN TẬP THÊM
+-- 1. In danh sách nhân viên
+SELECT * FROM Employees
+
+--2. Đếm xem mỗi khu vực có bao nhiêu nv
+SELECT COUNT(Region) FROM Employees GROUP BY Region--5 0
+--DO NULL KO DC XEM LÀ VALUE ĐỂ ĐẾM, NHƯNG VẪN LÀ 1 VALUE ĐỂ ĐC CHIA NHÓM
+--                                   NHÓM KO CÓ GIÁ TRỊ
+
+SELECT COUNT(*) FROM Employees WHERE Region IS NULL --4
+SELECT Region, COUNT(*) FROM Employees GROUP BY Region --5 4
+
+--3. Khảo sát đơn hàng 
+SELECT * FROM Orders
+-- Mỗi quốc gia có bao nhiêu đơn hàng
+SELECT ShipCountry, COUNT(*) FROM Orders 
+							 GROUP BY ShipCountry
+
+--4. Quốc gia nào ncó từ 50 đơn hàng trở lên
+SELECT ShipCountry, COUNT(*) AS [No orders] FROM Orders 
+							 GROUP BY ShipCountry
+							 HAVING COUNT(*) >= 50
+
+--5 Quốc gia nào có NHIỀU ĐƠN HÀNG NHẤT
+SELECT MAX([No orders]) FROM
+							(SELECT ShipCountry, COUNT(*) AS [No orders] FROM Orders 
+																		 GROUP BY ShipCountry
+							) AS CTry
+							-- CẦN TÌM LỚN NHẤT THÌ PHẢI CÓ BẢNG CHỨA DỮ LIỆU ĐỂ XÉT
+							-- CẦN BẢNG CHỨA DỮ LIỆU THÌ PHẢI LỌC DỮ LIỆU TỪ TABLE CHA 
+--lấy đc max rồi
+
+SELECT ShipCountry, COUNT(*) AS [No orders] FROM Orders 
+							 GROUP BY ShipCountry
+							 HAVING COUNT(*) = (
+												SELECT MAX([No orders]) FROM
+													(
+													SELECT ShipCountry, COUNT(*) AS [No orders] FROM Orders 
+													GROUP BY ShipCountry
+													) AS Cntry
+												)
+
+--6. Liệt kê đơn hàng của k/h có mã VINET
+SELECT * FROM Orders WHERE CustomerID = 'VINET'
+
+--7 VINET đã mua bao nhiêu lần
+SELECT CustomerID, COUNT(*) FROM Orders 
+							WHERE CustomerID = 'VINET'
+							GROUP BY CustomerID --KIỂM TRA OKIE THÌ MỚI ĐẾM, LOẠI NHỮNG THG K LIÊN QUAN
+SELECT CustomerID, COUNT(*) FROM Orders 
+							GROUP BY CustomerID
+							HAVING CustomerID = 'VINET' --CHIA XOG RÒI MỚI ĐẾM CÁI MIH CẦN
