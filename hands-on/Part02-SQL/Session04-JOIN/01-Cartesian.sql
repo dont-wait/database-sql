@@ -21,6 +21,9 @@ INSERT INTO EnDict VALUES(3, 'Three')
 
 --DROP TABLE EnDict
 
+-- PHẦN NÀY THÊM CHO OUTER JOIN
+INSERT INTO EnDict VALUES (4, 'Four')
+
 CREATE TABLE VnDict					--DDL (1 Nhánh của SQL
 									--Data Definition Language
 (
@@ -32,6 +35,7 @@ CREATE TABLE VnDict					--DDL (1 Nhánh của SQL
 INSERT INTO VnDict VALUES(1, N'Một') --DML
 INSERT INTO VnDict VALUES(2, N'Hai')
 INSERT INTO VnDict VALUES(3, N'Ba')
+INSERT INTO VnDict VALUES(5, N'Năm')
 
 SELECT * FROM VnDict
 SELECT * FROM EnDict
@@ -67,3 +71,5 @@ SELECT vn.*, en.EnDesc FROM VnDict vn, EnDict en
 				                     --EQUI JOIN
 									 --ĐA PHẦN TƯƠNG QUAN THEO TOÁN TỬ =
 									 --CÒN CÓ THỂ GHÉP THEO > >= < <= !=
+SELECT vn.*, en.EnDesc FROM VnDict vn JOIN EnDict en 
+                       ON vn.Nmbr = en.Nmbr
