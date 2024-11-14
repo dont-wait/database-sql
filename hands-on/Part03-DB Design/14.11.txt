@@ -1,0 +1,17 @@
+Multi-value Đa trị : 2 thằng độc lập nhau nhưng tương đương ý nghĩa ví dụ: số mũi chích
+Composite: GOm nhiều miếng bên trong, mỗi miếng là 1 thông tin khác nhau. ví dụ địa chỉ
+
+Đa trị: nhiều thành phần tương đương nhau nhưng gom lại vẫn chỉ là một vai trò, ngữ nghĩa. Ví dụ thông tin của n mũi chích vaccin gom lại trong 1 cell tách ra là n dòng thông tin mũi chích
+
+Phức hợp: gom lại là một ngữ nghĩa khác, chia ra là một ngữ nghĩa khác. Ví dụ: Nguyễn Văn A gộp 3 từ lại là một cái tên nhưng khi tách ra thì thành Họ, Họ đệm, tên -> Giáo làng mãi đỉnh
+
+file ldf lưu lại lịch sử, có thể chỉnh sửa lại undo
+mdf chứa cơ sở dữ liệu hiện tại
+bak file nén chứa 2 thằng trên - nén lại để có thể copy i noi khac
+
+Khi muốn đưa database máy minhf đưa qua máy thằng bạn, thay vì phải gửi nó file query, ta vào chuột phải vào db muốn đưa trong giao diện sql server, chọn task -> backup -> có file bak
+
+Thằng b muốn giải nén, kêu nó đem file đó vào thư mục backup trong program file->SQL server->instance->backup tiếp đó vào sql server, click vào Databases -> restore
+
+KHI THIẾT KẾ DATABASE ĐỂ LƯU TRỮ CƠ SỞ DỮ LIỆU, TA KHÔNG ĐƯỢC NGHĨ BAO NHIÊU TABLE LÀ ĐỦ, ỦA M ÍT Z M NHIỀU Z -> KHÔNG
+Ở ĐÂY TA CẦN NHÌN TRÊN DATA ĐỂ PHÂN TÍCH TÍNH BẤT THƯỜNG, HỢP LÍ CỦA DỮ LIỆU CÓ HAY KHÔNG ĐỂ QUYẾT ĐỊNH CẦN BAO NHIÊU BẢNG ĐỂ TRA CỨU, TRUY VẤN DỮ LIỆU, THỐNG KÊ
