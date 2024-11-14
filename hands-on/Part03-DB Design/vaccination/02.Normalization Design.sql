@@ -130,19 +130,18 @@ SELECT p.id, p.FirstName, COUNT(v.Dose) AS 'No Doses' FROM PersonV4 p LEFT JOIN 
 	
 -- ĂN TIỀN XANH ĐỎ	
 SELECT p.id, p.FirstName, IIF(COUNT(v.Dose) = 0, 'NOOP', 
-                             IIF(COUNT(v.Dose) = 1, 'YELLOW', 'GREEN')) 
-							 AS STATUS
-							 
-FROM PersonV4 p LEFT JOIN VaccinationV4 v
-                    ON p.ID = v.PersonID 
-					GROUP BY p.id, p.FirstName 	
+                          IIF(COUNT(v.Dose) = 1, 'YELLOW', 'GREEN')) 
+						  AS STATUS		 
+					FROM PersonV4 p LEFT JOIN VaccinationV4 v
+										ON p.ID = v.PersonID 
+										GROUP BY p.id, p.FirstName 	
 
 -- AN NGUYỄN TỪ VÀNG THÀNH XANH KHI CÓ THÊM MŨI CHÍCH NÀY
 INSERT INTO VaccinationV4 
   VALUES(2, GETDATE(), 'AZ', NULL, NULL, '00000000001')
 
 SELECT * FROM PersonV4
-SELECT * FROM VaccinationV4
+SELECT * FROM VaccinationV4 
 -------------------------------------------------------------
 -------------------------------------------------------------
 --* PHÂN TÍCH
@@ -164,6 +163,7 @@ CREATE TABLE PersonV5
 
 INSERT INTO PersonV5 VALUES('00000000001', N'NGUYỄN', N'AN', '0901x')
 INSERT INTO PersonV5 VALUES('00000000002', N'LÊ', N'BÌNH', '090X')
+INSERT INTO PersonV5 VALUES('00000000003', N'VÕ', N'CƯỜNG', '092X')
 
 CREATE TABLE VaccineV5
 (
@@ -180,7 +180,6 @@ SELECT * FROM VaccineV5
 --PRIMARY KEY MÀ LÀ VARCHAR() LÀM GIẢM HIỆU NĂNG VỀ THỰC THI QUERY
 --CHẠY CHẬM. THƯỜNG NGƯỜI TA SẼ CHỌN PK LÀ CON SỐ LÀ TỐT NHẤT, TỐT NHÌ CHAR
 --SẼ GIẢNG RIÊNG 1 BUỔI VỀ PRIMARY KEY (PK, FK, CK, SPK, NK, SRK-AK) 
-
 CREATE TABLE VaccinationV5
 (                                  
 	SEQ int IDENTITY PRIMARY KEY,  --CỨ TĂNG MÃI MÃI ĐI, 2 TỶ 1 MẤY LẦN CHÍCH
@@ -196,13 +195,16 @@ CREATE TABLE VaccinationV5
 	--FOREIGN KEY (Vaccine) REFERENCES VaccineV5(VaccineName),
 	--CONSTRAINT FK_VCN_VC FOREIGN KEY (Vaccine) REFERENCES VaccineV5(VaccineName)
 )
-
-
+SELECT * FROM Personv5
+SELECT * FROM VaccineV5
 INSERT INTO VaccinationV5 
   VALUES(1, GETDATE(), 'AstraZeneca', NULL, NULL, '00000000001') --OK
 
 INSERT INTO VaccinationV5 
   VALUES(2, '2021-12-20', 'AstraZeneca', NULL, NULL, '00000000001')  --OK 
+
+SELECT * FROM VaccinationV5
+
 
 INSERT INTO VaccinationV5 
   VALUES(3, '2021-12-20', 'AZ', NULL, NULL, '00000000001') --THẤT BẠI
@@ -213,7 +215,6 @@ INSERT INTO VaccinationV5
   VALUES(1, '2021-12-20', 'Verocell', NULL, NULL, '00000000002')
 
 
-
 SELECT * FROM VaccineV5
 SELECT * FROM PersonV5
 SELECT * FROM VaccinationV5
@@ -221,24 +222,40 @@ SELECT * FROM VaccinationV5
 -- THỐNG KÊ ĐC NHỮNG GÌ
 --1. Có bao nhiêu mũi vaccine AZ đã đc chích (chích bao nhát, ko care người)
 --Output: loại vaccine, tổng số mũi đã chích
+SELECT COUNT(v.Dose) AS NoAZVaccine FROM VaccinationV5 v WHERE v.Vaccine = 'AstraZeneca'
 
 --2. Ngày x có bao nhiêu mũi đã đc chích
 --Output: ngày, tổng số mũi đã chích
-
+SELECT v.InjDate, COUNT(v.Dose) FROM VaccinationV5 v
+					GROUP BY v.InjDate
 --3. Thống kê số mũi chích của mỗi cá nhân
 --Output: CCCD, Tên (full), di động, số mũi đã chích (0, 1, 2, 3)  
+SELECT p.ID, CONCAT(p.FirstName, ' ', p.LastName) 
+							AS FullName, p.Phone, COUNT(v.Dose) AS NoDose 
+							FROM Personv5 p LEFT JOIN VaccinationV5 v 
+							ON p.ID = v.PersonID
+							GROUP BY p.ID, p.FirstName, p.LastName, p.Phone
 
 --4. In ra thông tin chích của mỗi cá nhân
 --Output: CCCD, Tên (full), di động, số mũi đã chích (0, 1, 2, 3), MÀU SẮC
+SELECT p.ID, CONCAT(p.FirstName, ' ', p.LastName) 
+							AS FullName, p.Phone, COUNT(v.Dose) AS NoDose
+							, IIF(COUNT(v.Dose) = 0, 'NOPE'
+							, IIF(COUNT(v.Dose) = 1, 'YELLOW', 'GREEN')) AS STATUS 
+							FROM Personv5 p LEFT JOIN VaccinationV5 v 
+							ON p.ID = v.PersonID
+							GROUP BY p.ID, p.FirstName, p.LastName, p.Phone
 
 --5. Có bao nhiêu công dân đã chích ít nhất 1 mũi vaccine
-
+SELECT p.FirstName, COUNT(p.id) AS [NoDose] FROM Personv5 p LEFT JOIN VaccinationV5 v 
+									ON p.ID = v.PersonID GROUP BY p.FirstName
 --6. Những công dân nào chưa chích mũi nào?
 --Output: CCCD, Tên
-
+SELECT p.ID, concat(p.FirstName, ' ', p.LastName) AS FULLNAME FROM Personv5 p LEFT JOIN VaccinationV5 v 
+									on p.ID = v.PersonID WHERE v.Dose is null 
 --7. Công dân có CCCD X đã chích những mũi nào 
 --Output: CCCD, Tên, thông tin chích (in gộp + chuỗi, tái nhập composite)
-
+SELECT p.ID, concat(p.FirstName, ' ', p.LastName) as FullName,  v.*  FROM Personv5 p LEFT JOIN VaccinationV5 v ON p.ID = v.PersonID
 -- CHỐT HẠ: TÁCH ĐA TRỊ, HAY COMPOSITE DỰA TRÊN NHU CẦU THỐNG KÊ
 --          NẾU CÓ CỦA DỮ LIỆU TA LƯU TRỮ!!!
 --          GOM BẢNG -> TÌM ĐA TRỊ, TÌM COMPOSITE, TÌM LOOKUP TÁCH THEO

@@ -1,0 +1,23 @@
+Bao nhiêu table là đủ ?
+Trước hết cần tìm bao nhiêu đặc điểm là đủ, bao nhiêu đối tượng là đủ
+
+- Gom thành 1 table, đặc điểm biến thành cột, đừng lo có cần nhiều table hay ko, từ từ
+
+- Đánh giá thiết kế ổn ko ??? ổn khi thêm, xoá, cập nhật data - ĐIỀU GÌ BỊ KÌ LẠ, DỊ THƯỜNG, BẤT THƯỜNG KHI CREATE/UPDATE/DELETE TRÊN TABLE, - ANOMALIES/ANOMALY
+	+ BỊ LẶP LẠI THÔNG TIN DƯ THỪA
+ổn ko khi ta truy vấn SELECT
+
+- KHẨU QUYẾT
++ NHẬN DIỆN ENTITY
++ THIẾT KẾ RA ĐƯỢC TABLE
++ SINGLE REPONSIBLE
+	- KO ÔN ĐỒM, LO CHUYỆN NHÀ NGƯỜI TA
++ NORMALIZATION
++ TÍNH DỊ THƯỜNG KHI GỢP NHIỀU TABLE THÀNH 1 1 TABLE CHUNG
+ 	- Trùng lặp khi nhập liệu do gom nhiều thứ khác biệt vào một chỗ, ai cũng có thì ghi mỗi cái key
+		- mốt tự map là được, ko cần ghi lại -> tách table
+	- bao nhiêu table là đủ ? - cứ làm 1 table gòi hẵn làm
+	- Update, delete
+	- dữ liệu chung một kiểu mà lại gộp vào một cột thì ố dề -> một cell chứa nhiều value -> cột đa trị multi-valued -> khó phân biệt giá trị chung này đại diện cho gì -> mở rông chiều dọc chiều ngang (nhiều dòng) 
+
+	
