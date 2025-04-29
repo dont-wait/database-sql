@@ -1,0 +1,55 @@
+GIẢI QUYẾT VẤN ĐỀ SELECTION, LẤY DATA - THÔNG QUA KHÁI NIỆM KEY 
+- CANDIDATE KEY, COMPOSITE KEY   , SUPER KEY,     SUROGATE KEY, NATURAL KEY
+		 GỒM NHIỀU CỘT   PHỤ THUỘC HÀM	    TỰ TĂNG         MSSV, 
+- PRIMARY KEY
+
+-- KEY: LÀ 1 CỘT, HAY VÀI CỘT MÀ GIÁ TRỊ CỦA NÓ LÀ DUY NHẤT TRÊN TẤT CẢ CÁC DÒNG
+-- VALUE TRONG CỘT KEY CẤM TRÙNG, ĐƯỢC LỢI THẾ LÀ: DÙNG NÓ LẤY RA DUY NHẤT MỘT DÒNG
+-- KEY DÙNG CHO WHERE, ĐỂ TÌM MỘT THÔNG TIN DUY NHẤT, ĐẠI DIỆN CHO MỘT DÒNG KHÁC BIỆT VỚI TẤT CẢ DÒNG CÒN LẠI, DÙNG ĐỂ NHẬN DIỆN 1 OBJECT, ĐỐI TƯỢNG DỮ LIỆU
+-- DÙNG MSSV -> TÌM RA DUY NHẤT 1 SV 
+-- 1 CHÌA KHÓA -> MỞ 1 CÁNH CỬA !!!!!!!
+
+-- 1 TABLE VỀ LÍ THUYẾT CÓ N KEY, NHIỀU CỘT HAY CỤM CỘT ĐÓNG VAI TRÒ KEY ĐƯỢC MÀ
+
+-- TABLE Student(Id, Name, Address, Email, Phone,...)
+--               K                   K       K 
+--                 3 cột này đc gọi là 3 key khác nhau, 3 key ứng viện, candidate key
+-- thường người ta có xu hướng lấy 1 key nào đó làm key default, mặc định nó làm key
+-- key chính, PRIMARY KEY XUẤT HIỆN
+
+-- key này ngoài đời đang dùng cho tiện việc quản lí, ko phải là con số vô	hồn tự tăng
+-- NATURAL KEY
+-- TỰ TĂNG ĐẢM BẢO KO TRÙNG, VÔ NGHĨA, CHỈ LÀ CON SỐ THÔI, KEY NÀY GỌI LÀ SURROGATE KEY
+-- (DÙNG SỐ INT, LONG TỰ TĂNG, DÙNG DÃY HEXA RẤT DÀI)
+
+-- PK, K là như nhau đi
+-- PK có 2 loại: đơn thuộc tính, đa thuộc tính (nhiều cột gom lại tạo nên duy nhất)
+
+-- Lưu thông tin các căn hộ bán/cho thuê
+-- Apartment(Tên-building, Số-phòng, diện-tích, giá-thuê, giá bán...)
+--		SGTOWER	     101       
+--		SGTOWER      102
+
+--              Landmark81   101
+--              Innovation   101
+
+-- Key đâu, 2 cột mới tạo nên sự duy nhất, key phức hợp, 2 cột làm key, chứ không phải 2 key
+-- COMPOSITE KEY, gom vài cột để xđ sự duy nhất
+-- CỒNG KỀNH, GIẢM PERFORMANCE CỦA DBMS, DO CƠ CHẾ ĐÁNH CHỈ MỤC/INDEX
+-- thường trong n tình huống, người ta THÊM CỘT GIẢ TỰ TĂNG, PHẾ HAI THẰNG NÀY LÀM CANDIDATE KEY
+
+-- CỘT DATA: CỘT ĐƠN TRỊ - SINGLE VALUE, CỘT ĐA TRỊ - MULTI-VALUE, CỘT PHỨC HỢP 
+-- CỘT ĐƠN TRỊ: CỘT CHỨA 1 VALUE, 1 Ý NGHĨA
+-- Ví dụ: Năm sinh, Điểm tb, nếu ta chỉ có 1 số điện thoại - okie, tổng tiền, giảm giá
+--                                        1 email         - okie 
+-- * CỘT ĐA TRỊ: TRONG CỘT LƯU NHIỀU DATA ĐỘC LẬP NHAU, TƯƠNG ĐƯƠNG Ý NGHĨA
+-- Ví dụ: số điện thoại
+--            091x; 092y; 093z
+
+-- * CỘT PHỨC HỢP: trong cột lưu nhiều thành phần data, mỗi thành phần một vai trò tất cả thành phần  
+-- gom lại thành 1 ý nghĩa mới, từng tp có ý nghĩ riêng
+--ví dụ: cột địa chỉ
+--       1/1 Lê Lợi, Phường Cầu Ông Lãnh, Quận 1, TP Hồ Chí Minh
+
+
+
